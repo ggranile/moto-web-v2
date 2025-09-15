@@ -1,11 +1,100 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
+import Layout from "@/layouts/Layout.astro";
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+import MotoBackground from "@/assets/moto-background.png";
+import MotoEyes from "@/assets/moto-eyes.png";
+import MotoWelcome from "@/assets/moto-welcome.png";
+import Menu from "@/assets/menu.svg";
 ---
 
 <Layout>
-	<Welcome />
+  <section id="intro" class="relative h-screen overflow-hidden">
+    <div id="logo-mask" class="absolute inset-0 w-full h-full">
+      <picture id="moto" class="absolute inset-0 h-full scale-112 block overflow-hidden">
+        <img id="moto-background" src={MotoBackground.src} class="w-full h-full object-cover" />
+      </picture>
+    </div>
+
+    <div id="outside-black" class="absolute inset-0 pointer-events-none z-10"></div>
+
+    <img id="eyes" src={MotoEyes.src} alt="eyes"
+      class="absolute left-1/2 top-[11.5%] -translate-x-1/2 pointer-events-none z-20 w-[clamp(20vh,20%,25vh)]" />
+
+    <img id="moto-welcome" class="mask-fade-b absolute left-1/2 top-[40%] -translate-x-1/2 z-20 w-[min(90vw,800px)]"
+      src={MotoWelcome.src} alt="Welcome" />
+
+    <div class="absolute inset-0 flex flex-col items-center justify-between p-8 w-full z-20">
+      <header class="flex justify-end w-full">
+        <Menu class="size-14 text-rose-300" />
+      </header>
+      <footer id="moto-footer" class="absolute bottom-0 m-auto" />
+    </div>
+  </section>
+
+  <section id="content" class="min-h-[150vh] bg-[#33383b] text-neutral-100 flex items-center">
+    <div class="mx-auto max-w-2xl p-8 text-center">
+      <h2 class="text-3xl font-semibold mb-4">Sección de prueba</h2>
+      <p class="text-lg opacity-80">
+        Aquí aparecerá tu contenido. Al terminar la animación, esta sección entra y el scroll sigue normal.
+      </p>
+    </div>
+  </section>
 </Layout>
+
+<style>
+  #logo-mask {
+    background: black;
+    mask-image: url("/moto-logo-mask.svg");
+    mask-type: luminance;
+    mask-position: center 28%;
+    mask-repeat: no-repeat;
+    mask-size: clamp(5150vh, 3500%, 0vh);
+  }
+
+  #outside-black {
+    background: #32383b;
+    mask-image: linear-gradient(#fff 0 0), url("/moto-logo-mask.svg");
+    mask-repeat: no-repeat, no-repeat;
+    mask-position: center, center 28%;
+    mask-size: 100% 100%, clamp(5150vh, 3500%, 0vh);
+    mask-composite: exclude;
+  }
+
+  #moto-welcome{
+    --reveal: 0%;
+    --feather: 28%;
+    mask-image: linear-gradient(
+      to top,
+      black 0%,
+      black var(--reveal),
+      transparent calc(var(--reveal) + var(--feather))
+    );
+  }
+</style>
+
+<script>
+  import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+  gsap.registerPlugin(ScrollTrigger);
+
+  const tl = gsap.timeline({ ease: "power2.out" });
+
+  tl.to("#moto", { duration: 0.8, scale: 1 })
+    .to("#logo-mask", { maskSize: "clamp(20vh, 25%, 30vh)" }, 0.10)
+    .to("#outside-black", { maskSize: "100% 100%, clamp(20vh, 25%, 30vh)" }, 0.10)
+    .to("#logo-mask", { opacity: 0, duration: 0.2 }, 0.5)
+    .fromTo("#eyes", { opacity: 0, y: -15 }, { opacity: 1, y: 0, duration: 0.35 }, ">-0.1")
+    .fromTo("#moto-welcome", { opacity: 0, "--reveal": "0%" }, { opacity: 1, "--reveal": "100%", duration: 0.5, ease: "power3.out" }, ">-0.1");
+
+  ScrollTrigger.create({
+    id: "introST",
+    animation: tl,
+    trigger: "#intro",
+    start: "top top",
+    end: "+=2000",
+    scrub: 1,
+    pin: true,
+    anticipatePin: 1,
+    invalidateOnRefresh: true,
+  });
+</script>

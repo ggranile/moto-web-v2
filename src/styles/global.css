@@ -1,0 +1,50 @@
+@import "tailwindcss";
+
+@layer utilities {
+  .mask-fade-b {
+    mask-image: linear-gradient(black 80%, transparent);
+    mask-repeat: no-repeat;
+  }
+}
+
+@theme {
+    --animate-bounce-pulse: bounce-pulse 2s ease-in-out infinite;
+    --font-heavitas: "Heavitas";
+    --font-arco: "Arco";
+}
+
+@font-face {
+  font-family: "Heavitas";
+  src: url("/fonts/heavitas.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Arco";
+  src: url("/fonts/arco.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@keyframes bounce-pulse {
+    0% {
+        transform: translateY(0);
+        scale: 0.8;
+        opacity: 0.8;
+    }
+
+    50% {
+        transform: translateY(-5px);
+        opacity: 1;
+        scale: 1;
+    }
+
+    100% {
+        transform: translateY(0);
+        scale: 0.8;
+        opacity: 0.8;
+    }
+}
