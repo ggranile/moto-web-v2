@@ -10,13 +10,215 @@ import Menu from "@/assets/menu.svg";
 <Layout>
   <div class="scroll-container"></div>
 
-  <section id="content" class="fixed inset-0 bg-black text-neutral-100 z-10 min-h-screen ">
-    <div class="mx-auto max-w-3xl p-8 w-full text-center h-full flex flex-col justify-center">
-    <img src="/rock_01.png" alt="img1"
-      class="absolute top-10 left-10 w-24 pointer-events-none"
-      style="animation: float 6s ease-in-out infinite;" />
-    </div>
-  </section>
+<section id="content" class="fixed inset-0 bg-black text-neutral-100 z-10 min-h-screen">
+  <canvas id="space" class="absolute inset-0 block w-full h-full"></canvas>
+
+<div class="relative z-10 mx-auto max-w-6xl p-6 sm:p-8 w-full">
+  <!-- Grid principal -->
+  <div class="grid gap-6 lg:gap-8 lg:grid-cols-2">
+
+    <section
+      class="lg:col-span-2 rounded-3xl border-4 border-[#233055] bg-gradient-to-br from-[#0d1630] to-[#0b1226] p-6 sm:p-8 shadow-[0_12px_0_0_rgba(0,0,0,0.45)]">
+      <div class="flex items-center gap-3 mb-6">
+        <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full border-4 border-[#233055] bg-[#0f1a37] shadow-[0_6px_0_0_rgba(0,0,0,0.35)]">
+          <span class="text-sm font-semibold tracking-tight">WHAT IS MOTO?</span>
+        </span>
+      </div>
+
+      <div class="grid lg:grid-cols-2 gap-6 items-start">
+        
+        <h2 class="text-[44px] sm:text-6xl leading-[0.9] font-extrabold tracking-tight">
+          THE TICKER IS <span class="text-sky-400">$MOTO</span><br/>
+        </h2>
+
+        <!-- Texto -->
+        <p class="text-neutral-300 text-sm sm:text-base leading-relaxed">
+          Breve copy sobre tu token/proyecto. Mantén el tono divertido y directo.
+          Puedes usar 2–3 líneas. Este bloque queda a la derecha en desktop.
+        </p>
+      </div>
+
+    </section>
+
+    <!-- Card 1 -->
+    <section
+      class="rounded-3xl border-4 border-[#233055] bg-[#0e1730]
+             p-6 sm:p-8 shadow-[0_10px_0_0_rgba(0,0,0,0.45)]">
+      <h3 class="text-3xl sm:text-4xl font-extrabold tracking-tight mb-2">$MOTO STATS</h3>
+      <p class="text-neutral-300 text-sm">
+        Métricas clave. Actualiza con tus datos reales.
+      </p>
+      <div class="mt-6 grid grid-cols-2 gap-4">
+        <div class="rounded-2xl border-4 border-[#233055] bg-[#0f1a37] p-4 text-center">
+          <div class="text-3xl font-extrabold">203,087</div>
+          <div class="text-xs uppercase tracking-wide text-neutral-400">Holders</div>
+        </div>
+        <div class="rounded-2xl border-4 border-[#233055] bg-[#0f1a37] p-4 text-center">
+          <div class="text-3xl font-extrabold">1.2B</div>
+          <div class="text-xs uppercase tracking-wide text-neutral-400">Supply</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Card 2 -->
+    <section
+      class="rounded-3xl border-4 border-[#233055] bg-[#0e1730]
+             p-6 sm:p-8 shadow-[0_10px_0_0_rgba(0,0,0,0.45)]">
+      <h3 class="text-3xl sm:text-4xl font-extrabold tracking-tight mb-2">$PENGU HOLDERS</h3>
+      <p class="text-neutral-300 text-sm">
+        Otro bloque con KPIs, gráfica o CTA.
+      </p>
+      <button
+        class="mt-6 inline-flex items-center justify-center rounded-2xl border-4 border-[#233055]
+               bg-sky-400 text-black font-extrabold px-5 py-3 shadow-[0_6px_0_0_rgba(0,0,0,0.45)] active:translate-y-1 active:shadow-[0_3px_0_0_rgba(0,0,0,0.45)]">
+        View Dashboard
+      </button>
+    </section>
+
+  </div>
+</div>
+
+
+  <script type="module">
+    const canvas = document.getElementById('space');
+    const ctx = canvas.getContext('2d', { alpha: true });
+    const DPR = Math.max(1, Math.min(2, window.devicePixelRatio || 1));
+
+    // === Control por densidad ===
+    const DENSITY = 0.000035;     // baja/sube la densidad
+    const MIN = 8, MAX_CAP = 18;  // límites
+    let MAX = 0;
+
+    const MOUSE_RADIUS = 120;
+    const MOUSE_FORCE = 0.12;
+    const FRICTION = 0.998;
+    let W = 0, H = 0, running = true;
+    const mouse = { x: -9999, y: -9999 };
+
+    // Respeta reduced motion
+    const media = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const setMotion = () => { running = !media.matches; };
+    media.addEventListener?.('change', setMotion); setMotion();
+
+    function recomputeMax() {
+      const rect = canvas.getBoundingClientRect();
+      const area = rect.width * rect.height;
+      MAX = Math.min(MAX_CAP, Math.max(MIN, Math.round(area * DENSITY)));
+    }
+
+    function resize() {
+      const rect = canvas.getBoundingClientRect();
+      W = Math.floor(rect.width * DPR);
+      H = Math.floor(rect.height * DPR);
+      canvas.width = W; canvas.height = H;
+      canvas.style.width = rect.width + 'px';
+      canvas.style.height = rect.height + 'px';
+      recomputeMax();
+      // ajusta cantidad al vuelo
+      balanceRocks();
+    }
+    window.addEventListener('resize', resize, { passive: true });
+
+    const rand = (a,b)=> a + Math.random()*(b-a);
+    const clamp = (v,a,b)=> Math.max(a, Math.min(b,v));
+
+    // Carga múltiples imágenes
+    const ROCK_IMAGES = [];
+    const TOTAL_IMGS = 7;
+    let loaded = 0;
+
+    for (let i=1; i<=TOTAL_IMGS; i++) {
+      const img = new Image();
+      img.src = `/rock_${String(i).padStart(2,"0")}.png`;
+      img.onload = ()=> {
+        loaded++;
+        if (loaded === TOTAL_IMGS) init();
+      };
+      ROCK_IMAGES.push(img);
+    }
+
+    const ROCKS = [];
+
+    function createRock() {
+      const depth = rand(0.4,1.6);
+      const size = rand(28,96)*depth;
+      return {
+        x: rand(0,W), y: rand(0,H),
+        vx: rand(-0.35,0.35)*depth,
+        vy: rand(-0.35,0.35)*depth,
+        r: size,
+        d: depth,
+        rot: rand(0, Math.PI*2),
+        vr: rand(-0.01,0.01)*depth,
+        sprite: ROCK_IMAGES[Math.floor(Math.random()*ROCK_IMAGES.length)]
+      };
+    }
+
+    function balanceRocks() {
+      if (ROCKS.length < MAX) {
+        const need = MAX - ROCKS.length;
+        for (let i=0; i<need; i++) ROCKS.push(createRock());
+      } else if (ROCKS.length > MAX) {
+        ROCKS.length = MAX;
+      }
+    }
+
+    function init() {
+      resize(); // también fija MAX inicial
+      balanceRocks();
+      requestAnimationFrame(loop);
+    }
+
+    function toCanvasCoords(e) {
+      const rect = canvas.getBoundingClientRect();
+      return { x: (e.clientX - rect.left) * DPR, y: (e.clientY - rect.top) * DPR };
+    }
+    window.addEventListener('pointermove', e=>{
+      const p = toCanvasCoords(e);
+      mouse.x = p.x; mouse.y = p.y;
+    }, {passive:true});
+    window.addEventListener('pointerleave', ()=> { mouse.x=-9999; mouse.y=-9999; });
+
+    function loop() {
+      if (!running) { ctx.clearRect(0,0,W,H); return; }
+      ctx.clearRect(0,0,W,H);
+
+      for (const a of ROCKS) {
+        // Repulsión
+        const dx = a.x - mouse.x, dy = a.y - mouse.y;
+        const dist = Math.hypot(dx,dy);
+        if (dist < (MOUSE_RADIUS * a.d)) {
+          const f = (1 - dist/(MOUSE_RADIUS*a.d)) * MOUSE_FORCE;
+          const nx = dx / (dist || 1), ny = dy / (dist || 1);
+          a.vx += nx * f * 2.0;
+          a.vy += ny * f * 2.0;
+        }
+
+        // Actualiza
+        a.x += a.vx; a.y += a.vy;
+        a.vx *= FRICTION; a.vy *= FRICTION;
+        a.rot += a.vr;
+
+        // Wrap
+        if (a.x < -a.r) a.x = W+a.r;
+        if (a.x > W+a.r) a.x = -a.r;
+        if (a.y < -a.r) a.y = H+a.r;
+        if (a.y > H+a.r) a.y = -a.r;
+
+        // Dibujo
+        const s = clamp(a.r,12,256);
+        ctx.save();
+        ctx.translate(a.x, a.y);
+        ctx.rotate(a.rot);
+        ctx.globalAlpha = clamp(0.5+(a.d-0.4)/2.4, 0.5, 1);
+        ctx.drawImage(a.sprite, -s/2, -s/2, s, s);
+        ctx.restore();
+      }
+      requestAnimationFrame(loop);
+    }
+  </script>
+</section>
+
 
   <section id="after" class="relative bg-[#33383b] text-neutral-100 min-h-screen flex items-center justify-center z-20">
     <div class="mx-auto max-w-3xl p-8 w-full text-center">
