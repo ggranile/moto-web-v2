@@ -11,12 +11,14 @@
     --animate-bounce-pulse: bounce-pulse 2s ease-in-out infinite;
     --font-heavitas: "Heavitas";
     --font-arco: "Arco";
+    --font-spray: "Spray";
+    --font-digital: "Digital";
 }
 
 @font-face {
   font-family: "Heavitas";
   src: url("/fonts/heavitas.ttf") format("truetype");
-  font-weight: 400;
+  font-weight: normal;
   font-style: normal;
   font-display: swap;
 }
@@ -24,7 +26,23 @@
 @font-face {
   font-family: "Arco";
   src: url("/fonts/arco.ttf") format("truetype");
-  font-weight: 400;
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Spray";
+  src: url("/fonts/spray.otf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Digital";
+  src: url("/fonts/digital-7.ttf") format("truetype");
+  font-weight: normal;
   font-style: normal;
   font-display: swap;
 }

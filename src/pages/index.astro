@@ -1,224 +1,110 @@
 ---
 import Layout from "@/layouts/Layout.astro";
-
 import MotoBackground from "@/assets/moto-background.png";
 import MotoEyes from "@/assets/moto-eyes.png";
+import MotoEyesV2 from "@/assets/moto-eyes-v2.jpg";
 import MotoWelcome from "@/assets/moto-welcome.png";
 import Menu from "@/assets/menu.svg";
+import MotoFace from "@/assets/moto-face.png";
+import CopyIcon from "@/assets/copy.svg";
 ---
+
 
 <Layout>
   <div class="scroll-container"></div>
+  
+  <section id="content" class="fixed inset-0 bg-black text-neutral-100 z-10 min-h-screen">
 
-<section id="content" class="fixed inset-0 bg-black text-neutral-100 z-10 min-h-screen">
   <canvas id="space" class="absolute inset-0 block w-full h-full"></canvas>
 
-<div class="relative z-10 mx-auto max-w-6xl p-6 sm:p-8 w-full">
-  <!-- Grid principal -->
-  <div class="grid gap-6 lg:gap-8 lg:grid-cols-2">
+  <div class="relative z-10 mx-auto max-w-6xl p-6 sm:p-8 w-full">
+  
+    <!-- Grid principal -->
+  
+    <div class="grid gap-4 lg:grid-cols-2">
+    
+      <!-- Bento 1: Logo + título -->
+      
+      <section class="rounded-2xl border-3 border-pink-300 bg-[rgba(51,56,59,0.8)] p-2 sm:p-6 flex flex-col items-center text-center space-y-4">
+        <img src={MotoFace.src} alt="Moto Face" class="w-40 sm:w-20 lg:w-30 aspect-square object-contain select-none" />
+        <h1 class="text-6xl sm:text-5xl font-spray text-[#97d6c1] tracking-wide">THE TICKER IS</h1>
+        <h2 class="text-[#e4e7e9] text-7xl font-heavitas">$MOTO</h2>
+      </section>
 
-    <section
-      class="lg:col-span-2 rounded-3xl border-4 border-[#233055] bg-gradient-to-br from-[#0d1630] to-[#0b1226] p-6 sm:p-8 shadow-[0_12px_0_0_rgba(0,0,0,0.45)]">
-      <div class="flex items-center gap-3 mb-6">
-        <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full border-4 border-[#233055] bg-[#0f1a37] shadow-[0_6px_0_0_rgba(0,0,0,0.35)]">
-          <span class="text-sm font-semibold tracking-tight">WHAT IS MOTO?</span>
-        </span>
-      </div>
+      <!-- Bento 2: STATS -->
+      <section class="rounded-2xl border-3 border-pink-300 bg-[rgba(51,56,59,0.8)] p-6">
+        <div class="flex flex-row items-center space-x-1">
+          <img src={MotoEyesV2.src} alt="Moto Eyes" class="w-12 h-12 p-1 rounded-full object-cover shadow-[0_0_12px_#f9a8d4] select-none" />
+          <h3 class="text-3xl sm:text-xl font-heavitas tracking-wider pl-3">Token Information</h3>
+        </div>
 
-      <div class="grid lg:grid-cols-2 gap-6 items-start">
+        <!-- Fila 1: Precio (2/3) + Holders (1/3) -->
+    
+        <div class="mt-6 grid grid-cols-3 gap-4">
+          <div class="col-span-2 rounded-2xl border-3 border-pink-300 p-2 text-center">
+            <div class="text-3xl font-digital text-[#97d6c1]" id="stat-price">$ —</div>
+            <div class="text-xs uppercase tracking-wide text-neutral-400">Price</div>
+          </div>
+
+          <div class="col-span-1 rounded-2xl border-3 border-pink-300 p-2 text-center">
+            <div class="text-3xl font-digital text-[#97d6c1]" id="stat-holders">—</div>
+            <div class="text-xs uppercase tracking-wide text-neutral-400">Holders</div>
+          </div>
+        </div>
+
+        <!-- Fila 2: Market Cap + Volumen 24h -->
         
-        <h2 class="text-[44px] sm:text-6xl leading-[0.9] font-extrabold tracking-tight">
-          THE TICKER IS <span class="text-sky-400">$MOTO</span><br/>
-        </h2>
+        <div class="mt-4 grid grid-cols-2 gap-4">
+          <div class="rounded-2xl border-3 border-pink-300 p-2 text-center">
+            <div class="text-3xl font-digital text-[#97d6c1]" id="stat-mcap">$ —</div>
+            <div class="text-xs uppercase tracking-wide text-neutral-400">Market Cap</div>
+          </div>
 
-        <!-- Texto -->
-        <p class="text-neutral-300 text-sm sm:text-base leading-relaxed">
-          Breve copy sobre tu token/proyecto. Mantén el tono divertido y directo.
-          Puedes usar 2–3 líneas. Este bloque queda a la derecha en desktop.
+          <div class="rounded-2xl border-3 border-pink-300 p-2 text-center">
+            <div class="text-3xl font-digital text-[#97d6c1]" id="stat-vol24">$ —</div>
+            <div class="text-xs uppercase tracking-wide text-neutral-400">Volume (24h)</div>
+          </div>
+        </div>
+
+        <!-- Fila 3: Contrato -->
+        
+        <div class="mt-4 rounded-2xl border-3 border-pink-300 p-2 flex">
+          <button id="copy-contract" class="ml-2 text-[#e4e7e9] hover:text-pink-300 cursor-pointer">
+            <CopyIcon class="w-5 h-5" />
+          </button>
+          <div class="text-xl font-heavitas text-pretty ml-3">0x9a9de07629EF283c2d700eFD39...</div>
+        </div>
+      </section>
+
+      <!-- Bento 3: Descripción -->
+
+      <section class="lg:col-span-2 rounded-2xl border-3 border-pink-300 bg-[rgba(51,56,59,0.8)] p-6 sm:p-6">
+        <div class="flex flex-row items-center space-x-1 ">
+          <img  src={MotoEyesV2.src} alt="Moto Eyes" class="w-12 h-12 p-1 rounded-full object-cover shadow-[0_0_12px_#f9a8d4] select-none"/>
+          <h3 class="text-3xl sm:text-xl font-heavitas tracking-wider pl-3">WHAT IS MOTO?</h3>
+        </div>
+        <p class="font-heavitas text-[#e4e7e9] mt-6 sm:text-xl leading-relaxed text-pretty text-center lg:text-left">
+          Launched on <span class="font-spray text-2xl text-[#97d6c1] tracking-wider">Base</span> through Toshi Mart and adopted by the <span class="font-spray text-2xl text-[#97d6c1] tracking-wider">OG Toshi community</span>, Moto has grown from a meme into <span class="font-spray text-2xl text-[#97d6c1] tracking-wider">the face of Toshi Mart.</span> The black cat carries the spirit of Satoshi Naka<span class="font-spray text-2xl text-[#97d6c1] tracking-wider"> moto</span> in its name. 100% community-driven.
         </p>
-      </div>
+      </section>
 
-    </section>
-
-    <!-- Card 1 -->
-    <section
-      class="rounded-3xl border-4 border-[#233055] bg-[#0e1730]
-             p-6 sm:p-8 shadow-[0_10px_0_0_rgba(0,0,0,0.45)]">
-      <h3 class="text-3xl sm:text-4xl font-extrabold tracking-tight mb-2">$MOTO STATS</h3>
-      <p class="text-neutral-300 text-sm">
-        Métricas clave. Actualiza con tus datos reales.
-      </p>
-      <div class="mt-6 grid grid-cols-2 gap-4">
-        <div class="rounded-2xl border-4 border-[#233055] bg-[#0f1a37] p-4 text-center">
-          <div class="text-3xl font-extrabold">203,087</div>
-          <div class="text-xs uppercase tracking-wide text-neutral-400">Holders</div>
+      <!-- Bento 4: Buy Moto -->
+      
+      <section class="lg:col-span-2 rounded-2xl border-3 border-pink-300 bg-[rgba(51,56,59,0.8)] p-6 sm:p-6">
+        <div class="flex flex-row items-center space-x-1 ">
+          <img  src={MotoEyesV2.src} alt="Moto Eyes" class="w-12 h-12 p-1 rounded-full object-cover shadow-[0_0_12px_#f9a8d4] select-none"/>
+          <h3 class="text-3xl sm:text-xl font-heavitas tracking-wider pl-3">WHERE I CAN APE $MOTO?</h3>
         </div>
-        <div class="rounded-2xl border-4 border-[#233055] bg-[#0f1a37] p-4 text-center">
-          <div class="text-3xl font-extrabold">1.2B</div>
-          <div class="text-xs uppercase tracking-wide text-neutral-400">Supply</div>
-        </div>
-      </div>
-    </section>
+        <p class="font-heavitas text-[#e4e7e9] mt-6 sm:text-xl leading-relaxed text-pretty text-center lg:text-left">
+          Launched on <span class="font-spray text-2xl text-[#97d6c1] tracking-wider">Base</span> through Toshi Mart and adopted by the <span class="font-spray text-2xl text-[#97d6c1] tracking-wider">OG Toshi community</span>, Moto has grown from a meme into <span class="font-spray text-2xl text-[#97d6c1] tracking-wider">the face of Toshi Mart.</span> The black cat carries the spirit of Satoshi Naka<span class="font-spray text-2xl text-[#97d6c1] tracking-wider"> moto</span> in its name. 100% community-driven.
+        </p>
+      </section>.
 
-    <!-- Card 2 -->
-    <section
-      class="rounded-3xl border-4 border-[#233055] bg-[#0e1730]
-             p-6 sm:p-8 shadow-[0_10px_0_0_rgba(0,0,0,0.45)]">
-      <h3 class="text-3xl sm:text-4xl font-extrabold tracking-tight mb-2">$PENGU HOLDERS</h3>
-      <p class="text-neutral-300 text-sm">
-        Otro bloque con KPIs, gráfica o CTA.
-      </p>
-      <button
-        class="mt-6 inline-flex items-center justify-center rounded-2xl border-4 border-[#233055]
-               bg-sky-400 text-black font-extrabold px-5 py-3 shadow-[0_6px_0_0_rgba(0,0,0,0.45)] active:translate-y-1 active:shadow-[0_3px_0_0_rgba(0,0,0,0.45)]">
-        View Dashboard
-      </button>
-    </section>
+    </div>
 
   </div>
-</div>
 
-
-  <script type="module">
-    const canvas = document.getElementById('space');
-    const ctx = canvas.getContext('2d', { alpha: true });
-    const DPR = Math.max(1, Math.min(2, window.devicePixelRatio || 1));
-
-    // === Control por densidad ===
-    const DENSITY = 0.000035;     // baja/sube la densidad
-    const MIN = 8, MAX_CAP = 18;  // límites
-    let MAX = 0;
-
-    const MOUSE_RADIUS = 120;
-    const MOUSE_FORCE = 0.12;
-    const FRICTION = 0.998;
-    let W = 0, H = 0, running = true;
-    const mouse = { x: -9999, y: -9999 };
-
-    // Respeta reduced motion
-    const media = window.matchMedia('(prefers-reduced-motion: reduce)');
-    const setMotion = () => { running = !media.matches; };
-    media.addEventListener?.('change', setMotion); setMotion();
-
-    function recomputeMax() {
-      const rect = canvas.getBoundingClientRect();
-      const area = rect.width * rect.height;
-      MAX = Math.min(MAX_CAP, Math.max(MIN, Math.round(area * DENSITY)));
-    }
-
-    function resize() {
-      const rect = canvas.getBoundingClientRect();
-      W = Math.floor(rect.width * DPR);
-      H = Math.floor(rect.height * DPR);
-      canvas.width = W; canvas.height = H;
-      canvas.style.width = rect.width + 'px';
-      canvas.style.height = rect.height + 'px';
-      recomputeMax();
-      // ajusta cantidad al vuelo
-      balanceRocks();
-    }
-    window.addEventListener('resize', resize, { passive: true });
-
-    const rand = (a,b)=> a + Math.random()*(b-a);
-    const clamp = (v,a,b)=> Math.max(a, Math.min(b,v));
-
-    // Carga múltiples imágenes
-    const ROCK_IMAGES = [];
-    const TOTAL_IMGS = 7;
-    let loaded = 0;
-
-    for (let i=1; i<=TOTAL_IMGS; i++) {
-      const img = new Image();
-      img.src = `/rock_${String(i).padStart(2,"0")}.png`;
-      img.onload = ()=> {
-        loaded++;
-        if (loaded === TOTAL_IMGS) init();
-      };
-      ROCK_IMAGES.push(img);
-    }
-
-    const ROCKS = [];
-
-    function createRock() {
-      const depth = rand(0.4,1.6);
-      const size = rand(28,96)*depth;
-      return {
-        x: rand(0,W), y: rand(0,H),
-        vx: rand(-0.35,0.35)*depth,
-        vy: rand(-0.35,0.35)*depth,
-        r: size,
-        d: depth,
-        rot: rand(0, Math.PI*2),
-        vr: rand(-0.01,0.01)*depth,
-        sprite: ROCK_IMAGES[Math.floor(Math.random()*ROCK_IMAGES.length)]
-      };
-    }
-
-    function balanceRocks() {
-      if (ROCKS.length < MAX) {
-        const need = MAX - ROCKS.length;
-        for (let i=0; i<need; i++) ROCKS.push(createRock());
-      } else if (ROCKS.length > MAX) {
-        ROCKS.length = MAX;
-      }
-    }
-
-    function init() {
-      resize(); // también fija MAX inicial
-      balanceRocks();
-      requestAnimationFrame(loop);
-    }
-
-    function toCanvasCoords(e) {
-      const rect = canvas.getBoundingClientRect();
-      return { x: (e.clientX - rect.left) * DPR, y: (e.clientY - rect.top) * DPR };
-    }
-    window.addEventListener('pointermove', e=>{
-      const p = toCanvasCoords(e);
-      mouse.x = p.x; mouse.y = p.y;
-    }, {passive:true});
-    window.addEventListener('pointerleave', ()=> { mouse.x=-9999; mouse.y=-9999; });
-
-    function loop() {
-      if (!running) { ctx.clearRect(0,0,W,H); return; }
-      ctx.clearRect(0,0,W,H);
-
-      for (const a of ROCKS) {
-        // Repulsión
-        const dx = a.x - mouse.x, dy = a.y - mouse.y;
-        const dist = Math.hypot(dx,dy);
-        if (dist < (MOUSE_RADIUS * a.d)) {
-          const f = (1 - dist/(MOUSE_RADIUS*a.d)) * MOUSE_FORCE;
-          const nx = dx / (dist || 1), ny = dy / (dist || 1);
-          a.vx += nx * f * 2.0;
-          a.vy += ny * f * 2.0;
-        }
-
-        // Actualiza
-        a.x += a.vx; a.y += a.vy;
-        a.vx *= FRICTION; a.vy *= FRICTION;
-        a.rot += a.vr;
-
-        // Wrap
-        if (a.x < -a.r) a.x = W+a.r;
-        if (a.x > W+a.r) a.x = -a.r;
-        if (a.y < -a.r) a.y = H+a.r;
-        if (a.y > H+a.r) a.y = -a.r;
-
-        // Dibujo
-        const s = clamp(a.r,12,256);
-        ctx.save();
-        ctx.translate(a.x, a.y);
-        ctx.rotate(a.rot);
-        ctx.globalAlpha = clamp(0.5+(a.d-0.4)/2.4, 0.5, 1);
-        ctx.drawImage(a.sprite, -s/2, -s/2, s, s);
-        ctx.restore();
-      }
-      requestAnimationFrame(loop);
-    }
-  </script>
 </section>
-
 
   <section id="after" class="relative bg-[#33383b] text-neutral-100 min-h-screen flex items-center justify-center z-20">
     <div class="mx-auto max-w-3xl p-8 w-full text-center">
@@ -297,6 +183,7 @@ import Menu from "@/assets/menu.svg";
 </style>
 
 <script>
+
   import { gsap } from "gsap";
   import { ScrollTrigger } from "gsap/ScrollTrigger";
   gsap.registerPlugin(ScrollTrigger);
@@ -312,7 +199,7 @@ import Menu from "@/assets/menu.svg";
     .fromTo("#moto-welcome", { opacity: 0, "--reveal": "0%" }, { opacity: 1, "--reveal": "100%", duration: 0.5, ease: "power3.out" }, ">-0.1")
     .to("#intro", { yPercent: -100, ease: "none", duration: 1 }, ">")
     .set("#after", { y: 100 })
-    .to("#after", { y: 0, duration: 0.1, ease: "power2.out" }, "<"); // entra after desde abajo en paralelo
+    .to("#after", { y: 0, duration: 0.1, ease: "power2.out" }, "<");
 
 
   ScrollTrigger.create({
@@ -323,4 +210,252 @@ import Menu from "@/assets/menu.svg";
     animation: tl,
     invalidateOnRefresh: true,
   });
+
+
 </script>
+
+<script type="module">
+  const canvas = document.getElementById('space');
+  const ctx = canvas.getContext('2d', { alpha: true });
+  const DPR = Math.max(1, Math.min(2, window.devicePixelRatio || 1));
+
+  const DENSITY = 0.000035;
+  const MIN = 8, MAX_CAP = 18;
+  const MOUSE_RADIUS = 120, MOUSE_FORCE = 0.12, FRICTION = 0.998;
+
+  let MAX=0, W=0, H=0, running=true;
+  const mouse={x:-9999,y:-9999};
+
+  const media = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const setMotion = () => { running = !media.matches; };
+  media.addEventListener?.('change', setMotion); setMotion();
+
+  function recomputeMax(){
+    const rect = canvas.getBoundingClientRect();
+    const area = rect.width * rect.height;
+    MAX = Math.min(MAX_CAP, Math.max(MIN, Math.round(area * DENSITY)));
+  }
+  function resize(){
+    const rect = canvas.getBoundingClientRect();
+    W=Math.floor(rect.width*DPR);
+    H=Math.floor(rect.height*DPR);
+    canvas.width=W; canvas.height=H;
+    canvas.style.width=rect.width+"px";
+    canvas.style.height=rect.height+"px";
+    recomputeMax();
+    genStars();
+    balanceRocks();
+  }
+  window.addEventListener("resize", resize, {passive:true});
+
+  const rand=(a,b)=>a+Math.random()*(b-a);
+  const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+
+  
+  const STAR_DENSITY = 0.00025;       
+  const STAR_MIN = 0.6, STAR_MAX = 1.6; 
+  const STARS = [];
+
+  function genStars() {
+    STARS.length = 0;
+    const rect = canvas.getBoundingClientRect();
+    const area = rect.width * rect.height;
+    const count = Math.max(40, Math.round(area * STAR_DENSITY));
+    for (let i = 0; i < count; i++) {
+      STARS.push({
+        x: Math.random() * W,
+        y: Math.random() * H,
+        r: (STAR_MIN + Math.random()*(STAR_MAX-STAR_MIN)) * DPR,
+        base: 0.35 + Math.random()*0.45,   
+        amp: 0.15 + Math.random()*0.25,    
+        spd: 0.6 + Math.random()*1.4,      
+        phi: Math.random()*Math.PI*2     
+      });
+    }
+  }
+
+  function drawStars(t) {
+    for (const s of STARS) {
+      const a = s.base + s.amp * Math.sin(s.phi + t * s.spd);
+      ctx.globalAlpha = Math.max(0, Math.min(1, a));
+      ctx.beginPath();
+      ctx.arc(s.x, s.y, s.r, 0, Math.PI*2);
+      ctx.fillStyle = "#fff";
+      ctx.fill();
+    }
+    ctx.globalAlpha = 1;
+  }
+
+  // === Assets ===
+  const ROCK_IMAGES=[];
+  const TOTAL_ROCKS=7;
+  let loaded=0;
+  const TOTAL_ASSETS=TOTAL_ROCKS+1;
+
+  // tu nueva imagen fija
+  const motoEl=new Image();
+  motoEl.onload = ()=>{ assetLoaded(); };
+  motoEl.onerror = ()=>{ assetLoaded(); };
+  motoEl.src="/moto-space.webp";
+
+  function assetLoaded(){ if(++loaded===TOTAL_ASSETS) init(); }
+
+  for(let i=1;i<=TOTAL_ROCKS;i++){
+    const img=new Image();
+    img.onload=assetLoaded;
+    img.onerror=(e)=>console.warn("No pude cargar",img.src,e);
+    img.src=`/rock_${String(i).padStart(2,"0")}.png`;
+    ROCK_IMAGES.push(img);
+  }
+
+  const ROCKS=[];
+
+  function createRock(){
+    const depth=rand(0.4,1.6);
+    const size=rand(28,96)*depth;
+    return{
+      x:rand(0,W), y:rand(0,H),
+      vx:rand(-0.35,0.35)*depth,
+      vy:rand(-0.35,0.35)*depth,
+      r:size, d:depth,
+      rot:rand(0,Math.PI*2),
+      vr:rand(-0.01,0.01)*depth,
+      sprite:ROCK_IMAGES[Math.floor(Math.random()*ROCK_IMAGES.length)],
+      pinned:false, isMoto:false, nw:0, nh:0
+    };
+  }
+
+  function createMoto(){
+    const a=createRock();
+    a.isMoto=true; a.pinned=true;
+    a.vx*=0.6; a.vy*=0.6;
+    a.nw=motoEl.naturalWidth; 
+    a.nh=motoEl.naturalHeight;
+    return a;
+  }
+
+  function balanceRocks(){
+    if(ROCKS.length<MAX){
+      const need=MAX-ROCKS.length;
+      for(let i=0;i<need;i++) ROCKS.push(createRock());
+    } else if(ROCKS.length>MAX){
+      let i=0;
+      while(ROCKS.length>MAX && i<ROCKS.length){
+        if(!ROCKS[i].pinned) ROCKS.splice(i,1); else i++;
+      }
+    }
+  }
+
+  function init(){
+    resize();
+    balanceRocks();
+    if(motoEl.naturalWidth>0) ROCKS.push(createMoto());
+    requestAnimationFrame(loop);
+  }
+
+  function toCanvasCoords(e){
+    const rect=canvas.getBoundingClientRect();
+    return {x:(e.clientX-rect.left)*DPR,y:(e.clientY-rect.top)*DPR};
+  }
+  window.addEventListener("pointermove",e=>{
+    const p=toCanvasCoords(e); mouse.x=p.x; mouse.y=p.y;
+  },{passive:true});
+  window.addEventListener("pointerleave",()=>{mouse.x=-9999;mouse.y=-9999;});
+
+  function loop(){
+    if(!running){ctx.clearRect(0,0,W,H);return;}
+    ctx.clearRect(0,0,W,H);
+
+    // estrellas primero (fondo)
+    const t = performance.now()/1000;
+    drawStars(t);
+
+    for(const a of ROCKS){
+      const dx=a.x-mouse.x, dy=a.y-mouse.y;
+      const dist=Math.hypot(dx,dy);
+      if(dist<(MOUSE_RADIUS*a.d)){
+        const f=(1-dist/(MOUSE_RADIUS*a.d))*MOUSE_FORCE;
+        const nx=dx/(dist||1), ny=dy/(dist||1);
+        a.vx+=nx*f*2.0; a.vy+=ny*f*2.0;
+      }
+
+      a.x+=a.vx; a.y+=a.vy;
+      a.vx*=FRICTION; a.vy*=FRICTION;
+      a.rot+=a.vr;
+
+      const s=clamp(a.r,12,256);
+      const halfW=a.isMoto?(a.nw/2):(s/2);
+      const halfH=a.isMoto?(a.nh/2):(s/2);
+
+      if(a.x<-halfW) a.x=W+halfW;
+      if(a.x>W+halfW) a.x=-halfW;
+      if(a.y<-halfH) a.y=H+halfH;
+      if(a.y>H+halfH) a.y=-halfH;
+
+      ctx.save();
+      ctx.translate(a.x,a.y);
+      ctx.rotate(a.rot);
+      ctx.globalAlpha = 1;
+
+      if (a.isMoto) {
+        const scale = 0.5; // ajusta el tamaño del webp
+        const w = a.nw * scale;
+        const h = a.nh * scale;
+        ctx.drawImage(motoEl, -w/2, -h/2, w, h);
+      } else {
+        ctx.drawImage(a.sprite, -s/2, -s/2, s, s);
+      }
+      ctx.restore();
+    }
+    requestAnimationFrame(loop);
+  }
+</script>
+
+<script type="module">
+
+  const CONTRACT = "0x9a9de07629EF283c2d700eFD3958f59B7d528453";
+  const PLATFORM = "base";
+
+  const API = `https://api.coingecko.com/api/v3/coins/${PLATFORM}/contract/${CONTRACT}`;
+
+  const $ = (sel) => document.querySelector(sel);
+  const set = (sel, val) => { const el = $(sel); if (el && val != null) el.textContent = val; };
+
+  const usdPrice = (n) =>
+    (n == null ? "—" :
+      new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "USD",
+        maximumFractionDigits: 6
+      }).format(n));
+
+  const usdNoDecimals = (n) =>
+    (n == null ? "—" :
+      new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "USD",
+        maximumFractionDigits: 0
+      }).format(n));
+
+  const num = (n) => (n == null ? "—" : new Intl.NumberFormat("en-US").format(n));
+
+  async function loadCG() {
+    try {
+      const res = await fetch(API, { headers: { accept: "application/json" } });
+      if (!res.ok) throw new Error(String(res.status));
+      const data = await res.json();
+      const m = data.market_data ?? {};
+
+      set("#stat-price", usdPrice(m.current_price?.usd));
+      set("#stat-mcap", usdNoDecimals(m.market_cap?.usd));
+      set("#stat-vol24", usdNoDecimals(m.total_volume?.usd));
+      set("#stat-supply", num(m.circulating_supply ?? m.total_supply));
+
+    } catch (e) {
+      console.error("CoinGecko error:", e);
+    }
+  }
+
+  loadCG();
+</script>
+
